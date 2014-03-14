@@ -21,15 +21,15 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class JSPPRouter extends MessageBus {
-    private JSPPServer medusa;
+    private JSPPServer jsppServer;
 
-    public JSPPRouter(JSPPServer medusa, int bufferSize) {
-        super(medusa, bufferSize);
-        this.medusa = medusa;
+    public JSPPRouter(JSPPServer jsppServer, int bufferSize) {
+        super(jsppServer, bufferSize);
+        this.jsppServer = jsppServer;
     }
 
-    public void setMedusa(JSPPServer medusa){
-        this.medusa = medusa;
+    public void setJSPPServer(JSPPServer jsppServer){
+        this.jsppServer = jsppServer;
     }
 
     public void route(JSPP jspp){
