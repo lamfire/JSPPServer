@@ -87,8 +87,18 @@ public class JSPPServer implements MessageReceivedListener{
     }
 
     public void onMessageReceived(Session session, Message message) {
-        JSPP jspp = JSPPUtils.decode(message.content());
-        LOGGER.debug("[RECEIVED]:" + session +" -> " + jspp);
+        JSPP jspp = null;
+        try {
+            jspp = JSPPUtils.decode(message.content());
+        }catch (Throwable e){
+            LOGGER.error("[ERROR]:None jspp packet,ignore -> " + session);
+            return;
+        }
+
+        if(LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[RECEIVED]:" + session + " -> " + jspp);
+        }
+
         ProtocolType type = JSPP.getProtocolType(jspp);
         switch (type){
             case MESSAGE:
