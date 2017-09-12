@@ -105,7 +105,7 @@ public class JSPPServer implements MessageReceivedListener{
 
     protected void handleMessage(Session session, MESSAGE message){
         if(messageHandler == null){
-            LOGGER.warn("Not Found MessageHandler -> " + session +" > " + message);
+            LOGGER.warn("MessageHandler Not Found -> " + session +" > " + message);
             return;
         }
 
@@ -114,7 +114,7 @@ public class JSPPServer implements MessageReceivedListener{
 
     protected void handlePresence(Session session, PRESENCE presence){
         if(presenceHandler == null){
-            LOGGER.warn("Not Found PresenceHandler -> " + session +" > " + presence);
+            LOGGER.warn("PresenceHandler Not Found -> " + session +" > " + presence);
             return;
         }
 
@@ -123,7 +123,7 @@ public class JSPPServer implements MessageReceivedListener{
 
     protected void handleService(Session session, SERVICE service){
         if(serviceHandler == null){
-            LOGGER.warn("Not Found ServiceHandler -> " + session +" > " + service);
+            LOGGER.warn("ServiceHandler Not Found -> " + session +" > " + service);
             return;
         }
         serviceHandler.onService(session,service);
