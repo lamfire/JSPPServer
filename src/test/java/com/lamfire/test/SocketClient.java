@@ -11,11 +11,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
- * Created with IntelliJ IDEA.
+ * Socket client sample
  * User: linfan
  * Date: 15-8-18
  * Time: 上午11:00
- * To change this template use File | Settings | File Templates.
  */
 public class SocketClient {
 
@@ -32,7 +31,7 @@ public class SocketClient {
 
 
         byte[] content = JSPPUtils.encode(message);
-        os.write(Bytes.toBytes(content.length + 12));
+        os.write(Bytes.toBytes(content.length + 12));   //bodylength + headerlength
         os.write(Bytes.toBytes(0));                      //id
         os.write(Bytes.toBytes(content.length));        //bodylength
         os.write(Bytes.toBytes(0));                      //option
