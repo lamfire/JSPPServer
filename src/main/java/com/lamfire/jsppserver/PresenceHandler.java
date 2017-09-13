@@ -8,6 +8,5 @@ import com.lamfire.jspp.PRESENCE;
  * 状态处理接口
  */
 public interface PresenceHandler {
-
     void onPresence(Session session, PRESENCE presence);
 }
