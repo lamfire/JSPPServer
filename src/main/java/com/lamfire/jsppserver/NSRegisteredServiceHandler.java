@@ -1,6 +1,8 @@
 package com.lamfire.jsppserver;
 
+import com.lamfire.hydra.MessageFactory;
 import com.lamfire.hydra.Session;
+import com.lamfire.jspp.JSPPUtils;
 import com.lamfire.jspp.SERVICE;
 import com.lamfire.logger.Logger;
 import com.lamfire.utils.StringUtils;
@@ -27,6 +29,9 @@ public class NSRegisteredServiceHandler implements ServiceHandler{
             LOGGER.error("Not registered NS ["+ns+"] found - " + service);
             return;
         }
-        nsService.onNSService(session,service);
+        SERVICE result = nsService.onNSService(service);
+        if(result != null) {
+            session.send(MessageFactory.message(0, JSPPUtils.encode(result)));
+        }
     }
 }

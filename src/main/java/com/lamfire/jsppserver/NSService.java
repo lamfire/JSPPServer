@@ -7,6 +7,5 @@ import com.lamfire.jspp.SERVICE;
  * NS 服务接口
  */
 public interface NSService {
-
-    void onNSService(Session session, SERVICE service);
+    SERVICE service(SERVICE service);
 }
