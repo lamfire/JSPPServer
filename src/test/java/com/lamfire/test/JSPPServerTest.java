@@ -37,6 +37,7 @@ public class JSPPServerTest implements MessageHandler {
         server.setBind("0.0.0.0");
         server.setPort(9001);
         server.setMessageHandler(test);
+        server.setThreads(4);
         server.startup();
         LOGGER.info("Server startup on - " + server.getBind() +":" + server.getPort());
     }

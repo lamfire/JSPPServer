@@ -14,7 +14,7 @@ public class JSPPServer implements MessageReceivedListener{
     private Hydra hydra;
     private String bind;
     private int port;
-    private int threads = 16;
+    private int threads = 64;
 
     private MessageHandler messageHandler;
     private PresenceHandler presenceHandler;
@@ -139,4 +139,10 @@ public class JSPPServer implements MessageReceivedListener{
         serviceHandler.onService(session,service);
     }
 
+    public SessionMgr getSessionMgr(){
+        if(hydra == null){
+            return null;
+        }
+        return hydra.getSessionMgr();
+    }
 }

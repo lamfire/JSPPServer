@@ -29,7 +29,7 @@ public class NSRegisteredServiceHandler implements ServiceHandler{
             LOGGER.error("Not registered NS ["+ns+"] found - " + service);
             return;
         }
-        SERVICE result = nsService.onNSService(service);
+        SERVICE result = nsService.service(service);
         if(result != null) {
             session.send(MessageFactory.message(0, JSPPUtils.encode(result)));
         }

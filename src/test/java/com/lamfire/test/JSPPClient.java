@@ -1,9 +1,11 @@
 package com.lamfire.test;
 
 import com.lamfire.hydra.*;
+import com.lamfire.hydra.netty.NettySession;
 import com.lamfire.jspp.JSPP;
 import com.lamfire.jspp.JSPPUtils;
 import com.lamfire.jspp.MESSAGE;
+import io.netty.channel.AbstractChannel;
 
 /**
  * Created by linfan on 2017/9/12.
@@ -25,7 +27,13 @@ public class JSPPClient implements MessageReceivedListener{
         message.setBody("hello");
 
         Session session = snake.getSession();
+
         session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
+        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
+        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
+        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
+        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
+
     }
 
     public void onMessageReceived(Session session, Message message) {
