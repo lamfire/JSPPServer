@@ -111,7 +111,7 @@ public class JSPPServer implements MessageReceivedListener{
         //to JSPPSession
         JSPPSession jsppSession = (JSPPSession)session.attr(JSPP_SESSION_ATTR_NAME);
         if(jsppSession == null){
-            jsppSession=new JSPPSession(session,jsppCoder);
+            jsppSession=new JSPPSessionImpl(session,jsppCoder);
             session.attr(JSPP_SESSION_ATTR_NAME,jsppSession);
         }
 
