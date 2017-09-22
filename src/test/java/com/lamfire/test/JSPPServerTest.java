@@ -5,6 +5,7 @@ import com.lamfire.hydra.Session;
 import com.lamfire.jspp.JSPPUtils;
 import com.lamfire.jspp.MESSAGE;
 import com.lamfire.jsppserver.JSPPServer;
+import com.lamfire.jsppserver.JSPPSession;
 import com.lamfire.jsppserver.MessageHandler;
 import com.lamfire.logger.Logger;
 import com.lamfire.utils.OPSMonitor;
@@ -17,10 +18,10 @@ public class JSPPServerTest implements MessageHandler {
 
     OPSMonitor monitor = new OPSMonitor("1");
 
-    public void onMessage(Session session, MESSAGE message) {
+    public void onMessage(JSPPSession session, MESSAGE message) {
         //System.out.println(message);
         message.put("timestamp",System.currentTimeMillis());
-        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
+        session.send(message);
         monitor.done();
     }
 

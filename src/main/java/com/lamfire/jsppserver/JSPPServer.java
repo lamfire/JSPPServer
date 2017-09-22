@@ -10,11 +10,12 @@ import com.lamfire.logger.Logger;
  */
 public class JSPPServer implements MessageReceivedListener{
     private static final Logger LOGGER = Logger.getLogger(JSPPServer.class);
-
+    private static final String JSPP_SESSION_ATTR_NAME = "_JSPP_SESSION_";
     private Hydra hydra;
     private String bind;
     private int port;
     private int threads = 64;
+    private JSPPCoder jsppCoder = new DefaultJSPPCoder();
 
     private MessageHandler messageHandler;
     private PresenceHandler presenceHandler;
@@ -64,6 +65,14 @@ public class JSPPServer implements MessageReceivedListener{
         return serviceHandler;
     }
 
+    public JSPPCoder getJSPPCoder() {
+        return jsppCoder;
+    }
+
+    public void setJSPPCoder(JSPPCoder jsppCoder) {
+        this.jsppCoder = jsppCoder;
+    }
+
     public void setServiceHandler(ServiceHandler serviceHandler) {
         this.serviceHandler = serviceHandler;
     }
@@ -89,7 +98,7 @@ public class JSPPServer implements MessageReceivedListener{
     public void onMessageReceived(Session session, Message message) {
         JSPP jspp = null;
         try {
-            jspp = JSPPUtils.decode(message.content());
+            jspp = jsppCoder.decode(message);
         }catch (Throwable e){
             LOGGER.error("[ERROR]:None jspp packet,ignore -> " + session);
             return;
@@ -99,21 +108,28 @@ public class JSPPServer implements MessageReceivedListener{
 //            LOGGER.debug("[RECEIVED]:" + session + " -> " + jspp);
 //        }
 
+        //to JSPPSession
+        JSPPSession jsppSession = (JSPPSession)session.attr(JSPP_SESSION_ATTR_NAME);
+        if(jsppSession == null){
+            jsppSession=new JSPPSession(session,jsppCoder);
+            session.attr(JSPP_SESSION_ATTR_NAME,jsppSession);
+        }
+
         ProtocolType type = JSPP.getProtocolType(jspp);
         switch (type){
             case MESSAGE:
-                handleMessage(session,(MESSAGE) jspp);
+                handleMessage(jsppSession,(MESSAGE) jspp);
                 break;
             case PRESENCE:
-                handlePresence(session,(PRESENCE) jspp);
+                handlePresence(jsppSession,(PRESENCE) jspp);
                 break;
             case SERVICE:
-                handleService(session,(SERVICE) jspp);
+                handleService(jsppSession,(SERVICE) jspp);
                 break;
         }
     }
 
-    protected void handleMessage(Session session, MESSAGE message){
+    protected void handleMessage(JSPPSession session, MESSAGE message){
         if(messageHandler == null){
             LOGGER.warn("MessageHandler Not Found -> " + session +" > " + message);
             return;
@@ -122,7 +138,7 @@ public class JSPPServer implements MessageReceivedListener{
         messageHandler.onMessage(session,message);
     }
 
-    protected void handlePresence(Session session, PRESENCE presence){
+    protected void handlePresence(JSPPSession session, PRESENCE presence){
         if(presenceHandler == null){
             LOGGER.warn("PresenceHandler Not Found -> " + session +" > " + presence);
             return;
@@ -131,7 +147,7 @@ public class JSPPServer implements MessageReceivedListener{
         presenceHandler.onPresence(session,presence);
     }
 
-    protected void handleService(Session session, SERVICE service){
+    protected void handleService(JSPPSession session, SERVICE service){
         if(serviceHandler == null){
             LOGGER.warn("ServiceHandler Not Found -> " + session +" > " + service);
             return;

@@ -7,5 +7,5 @@ import com.lamfire.jspp.MESSAGE;
  * 消息处理接口
  */
 public interface MessageHandler {
-    void onMessage(Session session, MESSAGE message);
+    void onMessage(JSPPSession session, MESSAGE message);
 }

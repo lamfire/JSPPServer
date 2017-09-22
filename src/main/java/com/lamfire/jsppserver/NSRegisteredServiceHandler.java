@@ -18,7 +18,7 @@ public class NSRegisteredServiceHandler implements ServiceHandler{
         registry.registerPackage(packageName);
     }
 
-    public void onService(Session session, SERVICE service) {
+    public void onService(JSPPSession session, SERVICE service) {
         String ns = service.getNs();
         if(StringUtils.isBlank(ns)){
             LOGGER.error("Service packet failed,'ns' element not found - " + service);
@@ -31,7 +31,7 @@ public class NSRegisteredServiceHandler implements ServiceHandler{
         }
         SERVICE result = nsService.service(service);
         if(result != null) {
-            session.send(MessageFactory.message(0, JSPPUtils.encode(result)));
+            session.send(result);
         }
     }
 }

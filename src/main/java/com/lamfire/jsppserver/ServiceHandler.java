@@ -9,5 +9,5 @@ import com.lamfire.jspp.SERVICE;
  */
 public interface ServiceHandler {
 
-    void onService(Session session, SERVICE service);
+    void onService(JSPPSession session, SERVICE service);
 }

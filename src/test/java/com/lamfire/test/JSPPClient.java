@@ -5,6 +5,8 @@ import com.lamfire.hydra.netty.NettySession;
 import com.lamfire.jspp.JSPP;
 import com.lamfire.jspp.JSPPUtils;
 import com.lamfire.jspp.MESSAGE;
+import com.lamfire.jsppserver.DefaultJSPPCoder;
+import com.lamfire.jsppserver.JSPPCoder;
 import io.netty.channel.AbstractChannel;
 
 /**
@@ -28,11 +30,12 @@ public class JSPPClient implements MessageReceivedListener{
 
         Session session = snake.getSession();
 
-        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
-        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
-        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
-        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
-        session.send(MessageFactory.message(0, JSPPUtils.encode(message)));
+        JSPPCoder coder = new DefaultJSPPCoder();
+
+        //发送100个
+        for(int i=0;i<100;i++) {
+            session.send(coder.encode(message));
+        }
 
     }
 
