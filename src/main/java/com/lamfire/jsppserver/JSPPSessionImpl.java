@@ -26,7 +26,7 @@ class JSPPSessionImpl implements JSPPSession{
         if(LOGGER.isDebugEnabled()){
             LOGGER.debug("[SEND]:" + session + " -> " + jspp);
         }
-        session.send(jsppCoder.encode(jspp));
+        session.send(jsppCoder.encode(this,jspp));
     }
 
     public JSPPCoder getJSPPCoder() {

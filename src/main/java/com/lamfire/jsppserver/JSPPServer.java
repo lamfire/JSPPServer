@@ -10,7 +10,7 @@ import com.lamfire.logger.Logger;
  */
 public class JSPPServer implements MessageReceivedListener{
     private static final Logger LOGGER = Logger.getLogger(JSPPServer.class);
-    private static final String JSPP_SESSION_ATTR_NAME = "_JSPP_SESSION_";
+
     private Hydra hydra;
     private String bind;
     private int port;
@@ -96,9 +96,12 @@ public class JSPPServer implements MessageReceivedListener{
     }
 
     public void onMessageReceived(Session session, Message message) {
+        //to JSPPSession
+        JSPPSession jsppSession = JSPPSessionUtils.toJSPPSession(session,jsppCoder);
+
         JSPP jspp = null;
         try {
-            jspp = jsppCoder.decode(message);
+            jspp = jsppCoder.decode(jsppSession,message);
         }catch (Throwable e){
             LOGGER.error("[ERROR]:None jspp packet,ignore -> " + session);
             return;
@@ -106,13 +109,6 @@ public class JSPPServer implements MessageReceivedListener{
 
         if(LOGGER.isDebugEnabled()) {
             LOGGER.debug("[RECEIVED]:" + session + " -> " + jspp);
-        }
-
-        //to JSPPSession
-        JSPPSession jsppSession = (JSPPSession)session.attr(JSPP_SESSION_ATTR_NAME);
-        if(jsppSession == null){
-            jsppSession=new JSPPSessionImpl(session,jsppCoder);
-            session.attr(JSPP_SESSION_ATTR_NAME,jsppSession);
         }
 
         ProtocolType type = JSPP.getProtocolType(jspp);

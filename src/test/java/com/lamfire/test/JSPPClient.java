@@ -7,6 +7,8 @@ import com.lamfire.jspp.JSPPUtils;
 import com.lamfire.jspp.MESSAGE;
 import com.lamfire.jsppserver.DefaultJSPPCoder;
 import com.lamfire.jsppserver.JSPPCoder;
+import com.lamfire.jsppserver.JSPPSession;
+import com.lamfire.jsppserver.JSPPSessionUtils;
 import io.netty.channel.AbstractChannel;
 
 /**
@@ -28,13 +30,12 @@ public class JSPPClient implements MessageReceivedListener{
         message.setType("text");
         message.setBody("hello");
 
-        Session session = snake.getSession();
+        JSPPSession jsppSession = JSPPSessionUtils.toJSPPSession(snake.getSession(),new DefaultJSPPCoder());
 
-        JSPPCoder coder = new DefaultJSPPCoder();
 
         //发送100个
         for(int i=0;i<100;i++) {
-            session.send(coder.encode(message));
+            jsppSession.send(message);
         }
 
     }

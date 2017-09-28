@@ -15,11 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DefaultJSPPCoder implements JSPPCoder {
     private static final Logger LOGGER = Logger.getLogger(DefaultJSPPCoder.class);
     private final AtomicInteger atomicInteger = new AtomicInteger();
-    public JSPP decode(Message message) {
+    public JSPP decode(JSPPSession jsppSession,Message message) {
         return JSPPUtils.decode(message.content());
     }
 
-    public Message encode(JSPP jspp) {
+    public Message encode(JSPPSession jsppSession,JSPP jspp) {
         return MessageFactory.message(atomicInteger.getAndIncrement(), JSPPUtils.encode(jspp));
     }
 }
