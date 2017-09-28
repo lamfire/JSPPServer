@@ -35,6 +35,8 @@ public class AuthService implements NSService {
         result.put("status",200);
         service.setType("result");
         service.setResult(result);
+        service.setTo(userId);
+        service.setFrom(null);
         return service;
     }
 }

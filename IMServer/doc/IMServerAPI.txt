@@ -1,0 +1,11 @@
+IM Server API
+
+=======================================================================================================================================================
+1.登记用户
+请求:
+{"service":{"from":"lamfire","type":"set","ns":"user.auth","args":{"userId":"lamfire","token":"59cc74a36f1dfbdeb1dc6261"}}}
+
+响应:
+{"service":{"to":"lamfire","type":"result","ns":"user.auth","args":{"userId":"lamfire","token":"59cc74a36f1dfbdeb1dc6261"},"result":{"status":200}}}
+
+
