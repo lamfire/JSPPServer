@@ -1,7 +1,10 @@
 package com.lamfire.jsppserver;
 
+import com.lamfire.hydra.Message;
 import com.lamfire.hydra.Session;
+import com.lamfire.hydra.SessionClosedListener;
 import com.lamfire.jspp.JSPP;
+import com.lamfire.logger.Logger;
 
 import java.net.SocketAddress;
 
@@ -10,6 +13,7 @@ import java.net.SocketAddress;
  * Created by linfan on 2017/9/22.
  */
 class JSPPSessionImpl implements JSPPSession{
+    private static final Logger LOGGER = Logger.getLogger(JSPPSessionImpl.class);
     private JSPPCoder jsppCoder;
     private Session session;
 
@@ -19,6 +23,9 @@ class JSPPSessionImpl implements JSPPSession{
     }
 
     public void send(JSPP jspp){
+        if(LOGGER.isDebugEnabled()){
+            LOGGER.debug("[SEND]:" + session + " -> " + jspp);
+        }
         session.send(jsppCoder.encode(jspp));
     }
 
@@ -32,6 +39,14 @@ class JSPPSessionImpl implements JSPPSession{
 
     public long getId(){
         return session.getId();
+    }
+
+    public void send(Message message) {
+        throw new IllegalArgumentException("Not support this method");
+    }
+
+    public void send(Message message, boolean sync) throws InterruptedException {
+        throw new IllegalArgumentException("Not support this method");
     }
 
     public void close(){
@@ -59,6 +74,18 @@ class JSPPSessionImpl implements JSPPSession{
     }
 
     public void attr(String name,Object value){
-        attr(name,value);
+        session.attr(name,value);
+    }
+
+    public void heartbeat() {
+        session.heartbeat();
+    }
+
+    public void addCloseListener(SessionClosedListener listener) {
+        session.addCloseListener(listener);
+    }
+
+    public void removeCloseListener(SessionClosedListener listener) {
+        session.removeCloseListener(listener);
     }
 }

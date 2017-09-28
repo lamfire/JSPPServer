@@ -14,6 +14,12 @@ public class NSRegisteredServiceHandler implements ServiceHandler{
     private static final Logger LOGGER = Logger.getLogger(NSRegisteredServiceHandler.class);
     private final NSRegistry registry = new NSRegistry();
 
+    public NSRegisteredServiceHandler(){}
+
+    public NSRegisteredServiceHandler(String packageName){
+        registry.registerPackage(packageName);
+    }
+
     public void nsPackage(String packageName){
         registry.registerPackage(packageName);
     }
@@ -29,7 +35,7 @@ public class NSRegisteredServiceHandler implements ServiceHandler{
             LOGGER.error("Not registered NS ["+ns+"] found - " + service);
             return;
         }
-        SERVICE result = nsService.service(service);
+        SERVICE result = nsService.service(session,service);
         if(result != null) {
             session.send(result);
         }

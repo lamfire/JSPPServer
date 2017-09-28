@@ -104,9 +104,9 @@ public class JSPPServer implements MessageReceivedListener{
             return;
         }
 
-//        if(LOGGER.isDebugEnabled()) {
-//            LOGGER.debug("[RECEIVED]:" + session + " -> " + jspp);
-//        }
+        if(LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[RECEIVED]:" + session + " -> " + jspp);
+        }
 
         //to JSPPSession
         JSPPSession jsppSession = (JSPPSession)session.attr(JSPP_SESSION_ATTR_NAME);
